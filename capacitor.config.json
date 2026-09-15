@@ -1,0 +1,28 @@
+{
+  "appId": "au.com.steadytrip.app",
+  "appName": "Steady",
+  "webDir": "public",
+  "server": {
+    "url": "https://steady-trip.jormandollan.chatgpt.site",
+    "cleartext": false,
+    "androidScheme": "https",
+    "allowNavigation": [
+      "steady-trip.jormandollan.chatgpt.site"
+    ]
+  },
+  "android": {
+    "useLegacyBridge": true
+  },
+  "plugins": {
+    "FirebaseAuthentication": {
+      "skipNativeAuth": false,
+      "providers": ["google.com"]
+    },
+    "LocalNotifications": {
+      "iconColor": "#163f45"
+    },
+    "PushNotifications": {
+      "presentationOptions": ["sound", "alert"]
+    }
+  }
+}

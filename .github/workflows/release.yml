@@ -1,0 +1,46 @@
+name: Build installable apps
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm}
+      - uses: actions/setup-java@v4
+        with: {distribution: temurin, java-version: 21, cache: gradle}
+      - run: npm ci
+      - run: npm run android:sync
+      - run: chmod +x android/gradlew
+      - name: Add Firebase configuration
+        run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' | base64 --decode > android/app/google-services.json
+      - name: Add Android signing key
+        run: echo '${{ secrets.ANDROID_KEYSTORE }}' | base64 --decode > android/app/steady-release.p12
+      - name: Build Android APK
+        working-directory: android
+        run: ./gradlew assembleRelease
+        env:
+          APP_VERSION: ${{ github.ref_name }}
+          ANDROID_VERSION_CODE: ${{ github.run_number }}
+          ANDROID_KEYSTORE_PATH: ${{ github.workspace }}/android/app/steady-release.p12
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: android/app/build/outputs/apk/release/*.apk
+  windows:
+    needs: android
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm}
+      - run: npm ci
+      - run: npm run desktop:publish
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

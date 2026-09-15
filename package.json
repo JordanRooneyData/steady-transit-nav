@@ -1,0 +1,71 @@
+{
+  "name": "steady-trip",
+  "version": "0.5.7",
+  "private": true,
+  "description": "Steady trip companion for Android, Windows and the web",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JordanRooneyData/steady-transit-nav.git"
+  },
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "build": "npm run build:native-bridge && node scripts/build.mjs",
+    "build:native-bridge": "node scripts/build-native-bridge.mjs",
+    "android:sync": "npm run build:native-bridge && cap sync android",
+    "android:open": "cap open android",
+    "desktop": "electron .",
+    "desktop:pack": "electron-builder --win nsis --publish never --config.publish.provider=generic --config.publish.url=https://steady-trip.jormandollan.chatgpt.site/desktop-updates",
+    "desktop:publish": "electron-builder --win nsis --publish always",
+    "test": "node --test tracking.test.cjs planner.test.cjs server.test.mjs sessions.test.mjs companion.test.cjs notifications.test.mjs native.test.cjs reminders.test.cjs timetable.test.mjs firebase-auth.test.mjs"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.6.9",
+    "drizzle-kit": "^0.31.10",
+    "drizzle-orm": "^0.45.2",
+    "electron": "^44.3.0",
+    "electron-builder": "^26.15.3",
+    "esbuild": "^0.28.2"
+  },
+  "dependencies": {
+    "@capacitor-community/background-geolocation": "^1.2.26",
+    "@capacitor-firebase/authentication": "^7.5.0",
+    "@capacitor/android": "^7.6.9",
+    "@capacitor/app": "^7.1.0",
+    "@capacitor/browser": "^7.0.2",
+    "@capacitor/core": "^7.6.9",
+    "@capacitor/local-notifications": "^7.0.3",
+    "@capacitor/push-notifications": "^7.0.3",
+    "electron-updater": "^6.8.9",
+    "fflate": "^0.8.3",
+    "firebase": "^11.10.0"
+  },
+  "build": {
+    "appId": "au.com.steadytrip.companion",
+    "productName": "Steady Companion",
+    "asar": true,
+    "files": [
+      "desktop/**/*",
+      "public/icons/icon.ico",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release/desktop"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "public/icons/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": true
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "JordanRooneyData",
+      "repo": "steady-transit-nav",
+      "releaseType": "release"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1789009566614,
+      "tag": "0000_cultured_rattler",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1789389234782,
+      "tag": "0001_majestic_maximus",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1789402077444,
+      "tag": "0002_glossy_the_santerians",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1789404682505,
+      "tag": "0003_fluffy_professor_monster",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1789460100000,
+      "tag": "0004_private_profile",
+      "breakpoints": true
+    }
+  ]
+}
