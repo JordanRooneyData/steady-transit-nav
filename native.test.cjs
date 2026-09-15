@@ -15,6 +15,7 @@ test('native bridge is loaded before journey scripts',()=>{
  assert.ok(html.includes('/native-runtime.js'));assert.ok(!html.includes('/app.js'));
  const bridge=fs.readFileSync('native/bridge.mjs','utf8');
  assert.match(bridge,/fetch\('\/api\/profile'[\s\S]*for\(const src of appScripts\)await loadScript/);
+ assert.match(bridge,/STEADY_PERMISSIONS=data\.permissions/);
  assert.match(bridge,/distanceFilter:3/);
  assert.match(bridge,/checkForUpdate/);
  assert.match(bridge,/pendingUpdate/);
