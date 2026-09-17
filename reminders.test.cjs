@@ -19,6 +19,7 @@ test('reminder editor exposes independent reminder types and clonable walk timer
  const reminders=require('./public/reminders.js');
  const target={advance:3,vibrate:true,sound:false};reminders.normalizeReminders(target);
  assert.equal(target.reminders.early.value,3);assert.notEqual(target.reminders.button,target.reminders.arrival);
+ assert.notEqual(target.reminders.boarding,target.reminders.early);target.reminders.boarding.sound=true;assert.equal(target.reminders.early.sound,false);assert.ok(source.includes('Prepare to board bus'));
  assert.deepEqual(reminders.vibrationPattern('triple'),[160,110,160,110,160]);
 });
 

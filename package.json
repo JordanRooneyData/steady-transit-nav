@@ -1,6 +1,6 @@
 {
   "name": "steady-trip",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "private": true,
   "description": "Steady trip companion for Android, Windows and the web",
   "repository": {
