@@ -16,7 +16,7 @@ function adoptSession(record,force=false){
   pendingApply=false;stopAuto();stopPlanning();planningError='';
   if(s.phase==='finished'){chosenPlan=null;view='home';}
    else{
-    selected=s.selected;config=normalizeReminders({...defaults,...s.config,shiftPresets:{...defaults.shiftPresets,...s.config?.shiftPresets}});planDate=s.planDate;planTime=s.planTime;chosenPlan=s.chosenPlan;boardAlerted=!!s.boardAlerted;forceDemoBus=!!s.simulation;
+    selected=s.selected;planDate=s.planDate;planTime=s.planTime;chosenPlan=s.chosenPlan;boardAlerted=!!s.boardAlerted;forceDemoBus=!!s.simulation;
    if(s.phase==='planning'){stage=0;tripStarted=false;currentPosition={point:ROUTES.journeys[selected].start.point,navLeg:0,navFraction:0};tracker.reset();view='plan';startLive();startPlanClock();}
    else if(s.phase==='handoff'){view='handoff';tripStarted=true;}
    else{if(typeof liveMode!=='undefined')liveMode=!s.simulation;tripStarted=true;resetDemo(s.stage);simTime=s.simTime;lastObservation=Math.floor(simTime);currentPosition=s.simulation?simulation.sample(simTime):null;stage=s.stage;tracker.reset(stage);simSpeed=s.simSpeed;view=(!phoneDevice&&s.owner!==deviceId)?'handoff':'trip';if(s.auto&&s.owner===deviceId&&!widgetOnly&&!document.hidden)startAuto();}

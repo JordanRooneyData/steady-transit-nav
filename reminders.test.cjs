@@ -15,7 +15,7 @@ test('shift times default to PM and expose only quarter-hour choices',()=>{
 
 test('reminder editor exposes independent reminder types and clonable walk timers',()=>{
  const source=fs.readFileSync('public/reminders.js','utf8');
- for(const label of ['Early reminder','Button press reminder','Bus destination arrival','Early walk reminder','Stops','Minutes','Metres','Phone chime','Desktop chime','Phone push notification','Windows notification','Clone early walk timer','Try reminder'])assert.ok(source.includes(label),label);
+ for(const label of ['Approaching-your-stop reminder','Button press reminder','Bus destination arrival','Early walk reminder','Stops','Minutes','Metres','Phone chime','Desktop chime','Phone push notification','Windows notification','Clone early walk timer','Try reminder'])assert.ok(source.includes(label),label);
  const reminders=require('./public/reminders.js');
  const target={advance:3,vibrate:true,sound:false};reminders.normalizeReminders(target);
  assert.equal(target.reminders.early.value,3);assert.notEqual(target.reminders.button,target.reminders.arrival);

@@ -1,10 +1,13 @@
-const {app,BrowserWindow,dialog,shell}=require('electron');
+const {app,BrowserWindow,dialog,shell,ipcMain}=require('electron');
 const {autoUpdater}=require('electron-updater');
 const path=require('node:path');
+const fs=require('node:fs');
+const {spawn}=require('node:child_process');
 const {isAuthBootstrapUrl,isSiteUrl,isTrustedNavigation}=require('./navigation.cjs');
 
 const SITE='https://steady-trip.jormandollan.chatgpt.site/?desktopApp=1';
 let mainWindow;
+ipcMain.handle('steady-open-google-sign-in',async(event,id)=>{if(!isSiteUrl(event.senderFrame?.url)||typeof id!=='string'||!/^[a-f0-9-]{36}$/.test(id))throw Error('Invalid sign-in request');const url='https://steady-trip.jormandollan.chatgpt.site/?desktopLogin='+id,chrome=[process.env.PROGRAMFILES,process.env['PROGRAMFILES(X86)'],process.env.LOCALAPPDATA].filter(Boolean).map(base=>path.join(base,'Google/Chrome/Application/chrome.exe')).find(file=>fs.existsSync(file));if(chrome){await new Promise((resolve,reject)=>{const child=spawn(chrome,[url],{detached:true,stdio:'ignore',windowsHide:false});child.once('error',reject);child.once('spawn',()=>{child.unref();resolve();});}).catch(()=>shell.openExternal(url));}else return shell.openExternal(url);});
 
 function openExternalSafely(url){
  try{
@@ -38,7 +41,7 @@ function secureWebContents(contents,{authWindow=false}={}){
 }
 
 function createWindow(){
- mainWindow=new BrowserWindow({width:520,height:820,minWidth:390,minHeight:580,title:'Steady Companion',icon:path.join(__dirname,'../public/icons/icon.ico'),backgroundColor:'#f7fbf5',webPreferences:{contextIsolation:true,nodeIntegration:false,sandbox:true}});
+ mainWindow=new BrowserWindow({width:520,height:820,minWidth:390,minHeight:580,title:'Steady Companion',icon:path.join(__dirname,'../public/icons/icon.ico'),backgroundColor:'#f7fbf5',webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true}});
  const appSession=mainWindow.webContents.session;
  appSession.setPermissionCheckHandler((_contents,permission,origin)=>permission==='notifications'&&isSiteUrl(origin));
  appSession.setPermissionRequestHandler((contents,permission,callback,details)=>callback(permission==='notifications'&&isSiteUrl(details.requestingUrl||contents.getURL())));

@@ -10,3 +10,5 @@ export const notificationDevices=sqliteTable('notification_devices',{
 export const notificationDeliveries=sqliteTable('notification_deliveries',{
  eventKey:text('event_key').primaryKey(),userId:text('user_id').notNull(),createdAt:integer('created_at').notNull()
 },table=>[index('idx_notification_deliveries_user_id').on(table.userId)]);
+
+export const desktopLogins=sqliteTable('desktop_logins',{id:text('id').primaryKey(),challenge:text('challenge').notNull(),source:text('source').notNull(),userId:text('user_id'),expiresAt:integer('expires_at').notNull()},table=>[index('idx_desktop_login_source').on(table.source,table.expiresAt)]);

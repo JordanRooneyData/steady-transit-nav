@@ -21,7 +21,7 @@ function normalizeReminders(target){
  return target;
 }
 
-const reminderName={early:'Early reminder',boarding:'Prepare to board bus',button:'Button press reminder',arrival:'Bus destination arrival',walk:'Early walk reminder'};
+const reminderName={early:'Approaching-your-stop reminder',boarding:'Prepare to board bus',button:'Button press reminder',arrival:'Bus destination arrival',walk:'Early walk reminder'};
 const vibrationOptions=value=>[['off','Off'],['short','Short'],['long','Long'],['double','Double (short)'],['triple','Triple (short)']].map(([key,label])=>`<option value="${key}" ${value===key?'selected':''}>${label}</option>`).join('');
 const reminderToggle=(title,name,checked,description='')=>`<label class="switchrow"><div><span>${title}</span>${description?`<small>${description}</small>`:''}</div><input type="checkbox" role="switch" name="${name}" ${checked?'checked':''} aria-label="${title}"></label>`;
 const vibrationField=(name,value)=>`<label class="field"><span>Vibration</span><select name="${name}">${vibrationOptions(value)}</select></label>`;

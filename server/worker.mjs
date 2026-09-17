@@ -3,6 +3,8 @@ import {sessionAPI} from './sessions.mjs';
 import {notificationDeviceAPI,notificationSendAPI} from './notifications.mjs';
 import {authenticatedUser} from './firebase-auth.mjs';
 import {profileAPI} from './profile.mjs';
+import {settingsAPI} from './settings.mjs';
+import {desktopAuthAPI} from './desktop-auth.mjs';
 // Read-only, fixed-origin access to Adelaide Metro's two public live feeds.
 export function blocks(text,name){
  const out=[],re=new RegExp('\\b'+name+'\\s*\\{','g');let m;
@@ -32,6 +34,8 @@ export default {async fetch(request,env){const url=new URL(request.url);
  if(url.pathname==='/api/notifications/device')return notificationDeviceAPI(request,env);
  if(url.pathname==='/api/notifications/send')return notificationSendAPI(request,env);
  if(url.pathname==='/api/profile')return profileAPI(request,env);
+ if(url.pathname==='/api/settings')return settingsAPI(request,env);
+ if(url.pathname.startsWith('/api/desktop-auth/'))return desktopAuthAPI(request,env);
  if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405});
  if(url.pathname==='/api/timetable'){if(!await authenticatedUser(request,env))return Response.json({error:'Unauthorized'},{status:401});return timetableAPI(env);}
  if(url.pathname==='/api/live'){if(!await authenticatedUser(request,env))return Response.json({error:'Unauthorized'},{status:401});try{return Response.json(await readLive(),{headers:{'Cache-Control':'private, max-age=10'}});}catch{return Response.json({status:'unavailable',vehicles:null,updates:null},{status:503});}}

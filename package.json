@@ -1,6 +1,6 @@
 {
   "name": "steady-trip",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "private": true,
   "description": "Steady trip companion for Android, Windows and the web",
   "repository": {
@@ -16,7 +16,7 @@
     "desktop": "electron .",
     "desktop:pack": "electron-builder --win nsis --publish never --config.publish.provider=generic --config.publish.url=https://steady-trip.jormandollan.chatgpt.site/desktop-updates",
     "desktop:publish": "electron-builder --win nsis --publish always",
-    "test": "node --test tracking.test.cjs planner.test.cjs server.test.mjs sessions.test.mjs companion.test.cjs notifications.test.mjs native.test.cjs reminders.test.cjs timetable.test.mjs firebase-auth.test.mjs"
+    "test": "node --test tracking.test.cjs planner.test.cjs server.test.mjs sessions.test.mjs companion.test.cjs notifications.test.mjs native.test.cjs reminders.test.cjs timetable.test.mjs firebase-auth.test.mjs account-settings.test.mjs"
   },
   "devDependencies": {
     "@capacitor/cli": "^7.6.9",
